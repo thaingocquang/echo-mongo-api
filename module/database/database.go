@@ -11,8 +11,7 @@ import (
 )
 
 var (
-	db     *mongo.Database
-	client *mongo.Client
+	db *mongo.Database
 )
 
 // Connect ...
@@ -32,7 +31,6 @@ func Connect() {
 	if err != nil {
 		log.Println(err)
 	}
-	client = cl
 	db = cl.Database(envVars.Database.Name)
 	fmt.Println("Database Connected to", envVars.Database.Name)
 }

@@ -6,34 +6,27 @@ import (
 	"os"
 )
 
-type Database struct {
-	URI  string
-	Name string
-}
-
-// ENV .env struct
-type ENV struct {
-	// App port
-	AppPort string
-
-	// Database
-	Database Database
-}
-
 var env ENV
 
 // InitDotEnv init params in .env file
 func InitDotEnv() {
-	err := godotenv.Load()
-	if err != nil {
+
+	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	appPort := os.Getenv("APP_PORT")
-	database := Database{URI: os.Getenv("DB_URI"), Name: os.Getenv("DB_Name")}
+
+	appPort := GetEnvString("APP_PORT")
+	database := Database{URI: GetEnvString("DB_URI"), Name: GetEnvString("DB_Name")}
+
 	env = ENV{
 		AppPort:  appPort,
 		Database: database,
 	}
+}
+
+// GetEnvString ...
+func GetEnvString(key string) string {
+	return os.Getenv(key)
 }
 
 // GetEnv return .env data
